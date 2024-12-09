@@ -43,7 +43,7 @@ function App() {
         {category && (
           <div>
             <h2>Selected Category: {category}</h2>
-            <button onClick={handleGenerateDestination}>Find Destination</button>
+            <button className="find-destination-btn" onClick={handleGenerateDestination}>Find Destination</button>
           </div>
         )}
         {destination && <h3>Your Next Destination: {destination}</h3>}
