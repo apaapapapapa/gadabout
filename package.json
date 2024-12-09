@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "gadabout": "file:",
+    "playwright-edge": "^0.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.1",
@@ -11,8 +12,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "stop": "react-scripts stop",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:e2e": "npx playwright test",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -28,6 +31,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4"
   }
