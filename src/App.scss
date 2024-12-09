@@ -1,0 +1,44 @@
+$primary-color: #61dafb;
+$secondary-color: #21a1f1;
+$background-color: #282c34;
+$text-color: white;
+
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin-top: 2rem;
+
+  &-header {
+    background-color: $background-color;
+    padding: 2rem;
+    color: $text-color;
+
+    h2,
+    h3 {
+      color: $primary-color;
+    }
+  }
+
+  .buttons {
+    margin: 1rem 0;
+
+    button {
+      background-color: $primary-color;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: $secondary-color;
+      }
+
+      &.active {
+        background-color: $secondary-color;
+        color: $text-color;
+      }
+    }
+  }
+}
