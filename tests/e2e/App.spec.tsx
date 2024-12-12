@@ -1,11 +1,8 @@
-// tests/gadabout.spec.js
 import { test, expect } from '@playwright/test';
 const { spawn } = require('child_process');
 
-// Reactアプリケーションのプロセスを管理
 let reactProcess;
 
-// Reactアプリケーションをバックグラウンドで起動
 const startReactApp = () => {
   reactProcess = spawn('npm', ['start'], { shell: true });
 
@@ -24,28 +21,26 @@ const startReactApp = () => {
   });
 };
 
-// アプリを停止するための処理
 const stopReactApp = () => {
   if (reactProcess) {
-    reactProcess.kill('SIGINT'); // 'SIGINT' で終了シグナルを送信
+    reactProcess.kill('SIGINT');
   }
 };
 
 test.beforeAll(async () => {
-  // Reactアプリケーションをバックグラウンドで起動
+
   startReactApp();
 
-  // アプリが起動するまで待機
-  await new Promise((resolve) => setTimeout(resolve, 10000)); // 必要に応じて調整
+  await new Promise((resolve) => setTimeout(resolve, 10000));
 });
 
 test.afterAll(() => {
-  // Reactアプリケーションを終了
+
   stopReactApp();
 });
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('http://localhost:3000');  // ローカルでのアプリのURL
+  await page.goto('http://localhost:3000');
 });
 
 test.describe('Gadabout Explorer App', () => {

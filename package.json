@@ -14,7 +14,6 @@
     "start": "react-scripts start",
     "stop": "react-scripts stop",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "test-unit": "jest",
     "test-ct": "playwright test -c playwright-ct.config.ts",
     "test-e2e": "playwright test -c playwright-e2e.config.ts",
