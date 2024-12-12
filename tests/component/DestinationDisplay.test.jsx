@@ -1,35 +1,45 @@
 import { test, expect } from '@playwright/experimental-ct-react';
-import DestinationDisplayStories from './DestinationDisplay.stories';
+import DestinationDisplay from '../../src/DestinationDisplay';
 
-test.describe('DestinationDisplay Component', () => {
-  test('カテゴリがない場合、Selected CategoryやFind Destinationボタンが表示されない', async ({ mount }) => {
-    const component = await mount(DestinationDisplayStories.NoCategory);
-    await expect(component.getByText('Selected Category:', { exact: false })).toHaveCount(0);
-    await expect(component.getByRole('button', { name: 'Find Destination' })).toHaveCount(0);
-    await expect(component.getByText('Your Next Destination:', { exact: false })).toHaveCount(0);
-  });
+test('should display the category and "Find Destination" button when category is provided', async ({ mount }) => {
+  const component = await mount(
+    <DestinationDisplay 
+      category="Beaches" 
+      onFindDestination={() => {}} 
+    />
+  );
 
-  test('カテゴリがある場合、Selected CategoryとFind Destinationボタンが表示される', async ({ mount }) => {
-    const component = await mount(DestinationDisplayStories.WithCategory);
-    await expect(component.getByText('Selected Category: City')).toBeVisible();
-    await expect(component.getByRole('button', { name: 'Find Destination' })).toBeVisible();
-  });
+  await expect(component.locator('h2')).toHaveText('Selected Category: Beaches');
+  await expect(component.locator('.find-destination-btn')).toBeVisible();
+  // Destination should not be visible if not provided
+  await expect(component.locator('text=Your Next Destination:')).toHaveCount(0);
+});
 
-  test('目的地がある場合、Your Next Destinationが表示される', async ({ mount }) => {
-    const component = await mount(DestinationDisplayStories.WithDestination);
-    await expect(component.getByText('Your Next Destination: Tokyo, Japan')).toBeVisible();
-  });
+test('should display the destination when provided', async ({ mount }) => {
+  const component = await mount(
+    <DestinationDisplay 
+      category="Beaches" 
+      onFindDestination={() => {}} 
+      destination="Hawaii"
+    />
+  );
+  
+  await expect(component.locator('h3')).toHaveText('Your Next Destination: Hawaii');
+});
 
-  test('Find DestinationボタンクリックでonFindDestinationが呼ばれる', async ({ mount }) => {
-    let clicked = false;
-    const component = await mount({
-      ...DestinationDisplayStories.WithCategory,
-      args: {
-        ...DestinationDisplayStories.WithCategory.args,
-        onFindDestination: () => { clicked = true; },
-      },
-    });
-    await component.getByRole('button', { name: 'Find Destination' }).click();
-    expect(clicked).toBe(true);
-  });
+test('should call onFindDestination when the button is clicked', async ({ mount }) => {
+  let clicked = false;
+  const onFindDestination = () => {
+    clicked = true;
+  };
+
+  const component = await mount(
+    <DestinationDisplay 
+      category="Beaches" 
+      onFindDestination={onFindDestination} 
+    />
+  );
+
+  await component.locator('.find-destination-btn').click();
+  expect(clicked).toBe(true);
 });

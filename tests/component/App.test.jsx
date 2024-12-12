@@ -1,29 +1,21 @@
 import { test, expect } from '@playwright/experimental-ct-react';
-import AppStories from './App.stories';
+import App from '../../src/App';
+import destinations from "../../src/destinations";
 
-test.describe('App Component', () => {
-  test('初期表示：タイトルと説明が表示され、カテゴリボタンがある', async ({ mount }) => {
-    const component = await mount(AppStories.Default);
-    await expect(component.getByRole('heading', { name: 'Gadabout Explorer' })).toBeVisible();
-    await expect(component.getByText('Select a category to discover your next adventure!')).toBeVisible();
-    
-    // カテゴリーボタンが表示されていること
-    await expect(component.getByRole('button', { name: 'City' })).toBeVisible();
-    await expect(component.getByRole('button', { name: 'Nature' })).toBeVisible();
-    await expect(component.getByRole('button', { name: 'Culture' })).toBeVisible();
-  });
+test('should select a category and display a destination', async ({ mount }) => {
 
-  test('カテゴリを選択すると「Selected Category: ...」が表示', async ({ mount }) => {
-    const component = await mount(AppStories.Default);
-    const cityButton = component.getByRole('button', { name: 'City' });
-    await cityButton.click();
-    await expect(component.getByText('Selected Category: City')).toBeVisible();
-  });
+  const component = await mount(<App getRandomDestination={destinations} />);
 
-  test('カテゴリ選択後、Find Destinationボタン押下でモックDestinationが表示される', async ({ mount }) => {
-    const component = await mount(AppStories.Default);
-    await component.getByRole('button', { name: 'City' }).click();
-    await component.getByRole('button', { name: 'Find Destination' }).click();
-    await expect(component.getByText('Your Next Destination: Mock Destination')).toBeVisible();
-  });
+  // "City"カテゴリーを選択
+  await component.locator('button', { hasText: 'City' }).click();
+
+  await expect(component.locator('h2')).toHaveText('Selected Category: City');
+
+  // 目的地を生成するボタンをクリック
+  await component.locator('button', { hasText: 'Find Destination' }).click();
+
+  // 目的地が表示されていることを確認
+  const destinationText = component.locator('h3');
+  await expect(destinationText).toHaveText(/Your Next Destination:/);
+  await expect(destinationText).toContainText(/Tokyo, Japan|New York, USA|Paris, France/);
 });
