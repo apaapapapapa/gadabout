@@ -1,7 +1,7 @@
 const { devices } = require('@playwright/test');
 
 module.exports = {
-  testDir: './tests',
+  testDir: 'tests/e2e/',
   timeout: 30000,
   name: "chromium",
   use: {
