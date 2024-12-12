@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import "./App.scss";
 
-const destinations = {
+export const destinations = {
   City: ["Tokyo, Japan", "New York, USA", "Paris, France"],
   Nature: ["Yellowstone, USA", "Banff, Canada", "Great Barrier Reef, Australia"],
   Culture: ["Kyoto, Japan", "Rome, Italy", "Cairo, Egypt"],
+};
+
+export const getRandomDestination = (category) => {
+  if (!category || !destinations[category]) return "";
+  const options = destinations[category];
+  return options[Math.floor(Math.random() * options.length)];
 };
 
 function App() {
@@ -17,11 +23,8 @@ function App() {
   };
 
   const handleGenerateDestination = () => {
-    if (category) {
-      const options = destinations[category];
-      const randomDestination = options[Math.floor(Math.random() * options.length)];
-      setDestination(randomDestination);
-    }
+    const randomDestination = getRandomDestination(category);
+    setDestination(randomDestination);
   };
 
   return (
@@ -43,7 +46,9 @@ function App() {
         {category && (
           <div>
             <h2>Selected Category: {category}</h2>
-            <button className="find-destination-btn" onClick={handleGenerateDestination}>Find Destination</button>
+            <button className="find-destination-btn" onClick={handleGenerateDestination}>
+              Find Destination
+            </button>
           </div>
         )}
         {destination && <h3>Your Next Destination: {destination}</h3>}
