@@ -1,10 +1,9 @@
 import { test, expect } from '@playwright/experimental-ct-react';
 import App from '../../src/App';
-import destinations from "../../src/destinations";
 
 test('should select a category and display a destination', async ({ mount }) => {
 
-  const component = await mount(<App getRandomDestination={destinations} />);
+  const component = await mount(<App />);
 
   // "City"カテゴリーを選択
   await component.locator('button', { hasText: 'City' }).click();
